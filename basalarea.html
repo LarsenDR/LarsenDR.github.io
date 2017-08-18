@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="../daveStyle.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+
+                <h2>Basal area per acre</h2>
+		 <p>Basal area per acre is the cross-section area of all the trees on an acre.
+		 </p>
+
+<p>
+<center>
+  <font size="5">
+    $$ba = \sum_{i=1}^{n} 0.005454154 * dbh_i^2 * w_i$$
+  </font>
+</center>
+</p>
+
+<p>
+where $ba$ is the basal are per acre, 0.005454154 is a constant, $dbh$ is the diameter at breast height in inches,
+and $w$ is the expansion factor that converts the sample tree to a per acre basis.
+</p>
+
+<p>
+<center>
+  <font size="5">
+    $$ba = \sum_{i=1}^{n} 0.00007854 * dbh_i^2 * w_i$$
+  </font>
+</center>
+</p>
+
+<p>
+where $ba$ is the basal are per hectare, 0.00007854 is a constant, $dbh$ is the diameter at breast height in centimeters,
+and $w$ is the expansion factor that converts the sample tree to a per hectare basis.
+</p>
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> dia = 8,6,8,5,4,6,7 in inches</dd>
+<dd> weight = 10,10,10,10,10,10,10</dd>
+<dd> unittype = "imperial"</dd>
+<dd> Answer = 15.8 sq. feet per acre</dd>
+</dl>
+</p>
+<p>
+<dl>
+<dt><b>Metric Units</b></dt>
+<dd> dia = 8,6,8,5,4,6,7 in centimeters</dd>
+<dd> weight = 25,25,25,25,25,25,25</dd>
+<dd> unittype = "metric"</dd>
+<dd> Answer = 0.56 sq. meters per hectare</dd>
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4>Visual Basic</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+
+<pre> <code>
+Function basalarea(dbh As Range, w As Range, Optional unittype As String = "imperial") As Double
+' Function to calculate basal area per acre from diameter at breast height and expansion factor weights
+' by David R. Larsen, Copyright October 10, 2012
+' Creative Commons  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+
+If (unittype = "imperial") Then
+    For i = 1 To dbh.Height
+         basalarea = basalarea + 0.005454154 * dbh(i).Value ^ 2 * w(i).Value
+    Next i
+ElseIf (unittype = "metric") Then
+    For i = 1 To dbh.Height
+         basalarea = basalarea + 0.00007854 * dbh(i).Value ^ 2 * w(i).Value
+    Next i
+Else
+    basalarea = 0#
+    MsgBox ("Unknown unit type, options are: imperial or metric")
+End If
+
+End Function
+
+</code></pre>
+</div>
+
+<a href="code/VBS/basalarea.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<h4>R Statistical Package Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+basalarea = function( dia, weight, unittype="imperial" )
+{
+# Function to calculate the basal area per unit area
+# weight is the expansion factor to convert the sample area number to
+# the unit area.
+# By David R. Larsen, Copyright, October 9, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+  if ( unittype == "imperial" ){
+    bat = 0.005454154 * dia ^ 2 * weight
+  }else if ( unittype == "metic" ){
+    bat = 0.00007854 * dia ^ 2 * weight
+  }else{
+    bat = rep( 0, length=length(dia) )
+  }
+  ba = sum(bat)
+  ba
+}
+</code></pre>
+</div>
+
+<a href="code/R/basalarea.R">R Statistical Package Code</a><br/>
+</p>
+
+<h4>Python Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate the basal area per acre
+# from diameter and weight
+# by David R. Larsen, October 11, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+def basalarea( dia=[], weight=[], unittype="imperial"):
+    idx = 1
+    value = 0
+    for d in dia:
+       if( unittype == "imperial" ):
+          value = value + 0.005454154 * d**2 * weight[idx]
+       elif( unittype == "metric"):
+          value = value + 0.00007854 * d**2 * weight[idx]
+       else:
+          print "Unknown unittype, options are imperial or metric"
+          return
+    idx = idx + 1
+    next
+    return value
+
+print "basalarea =", basalarea(dia=[8,6,8,5,4,6,7],weight=[10,10,10,10,10,10,10] )
+print "basalarea =", basalarea(dia=[8,6,8,5,4,6,7],weight=[10,10,10,10,10,10,10], unittype="imperial" )
+print "basalarea =", basalarea(dia=[8,6,8,5,4,6,7],weight=[25,25,25,25,25,25,25], unittype="metric" )
+print "basalarea =", basalarea([1], [1], "cunits")
+</code></pre>
+</div>
+<a href="code/python/basalarea.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<h4> Go Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate the basal area per acre
+// from diameter and weight
+// by David R. Larsen, November 20, 2013
+// Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+package main
+
+import (
+	"fmt"
+)
+
+func basalarea(dia []float64, wt []float64, unittype string) (ba float64) {
+	cst := 0.005454154
+	if unittype == "metric" {
+		cst = 0.00007856
+	}
+
+	for i := range dia {
+		ba = ba + cst*dia[i]*dia[i]*wt[i]
+	}
+	return
+}
+
+func main() {
+	dia := []float64{8, 6, 8, 5, 4, 6, 7}
+	wt := []float64{10, 10, 10, 10, 10, 10, 10}
+	wt2 := []float64{25, 25, 25, 25, 25, 25, 25}
+	fmt.Println("basalarea imperial =", basalarea(dia, wt, "imperial"))
+	fmt.Println("basalarea metric =", basalarea(dia, wt2, "metric"))
+}
+</code></pre>
+</div>
+<a href="http://play.golang.org/p/53WOeoWsdd">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/basalarea.gotxt">Go Code</a>
+</p>
+<p>
+Note the Go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: October 9, 2012<br/>
+	 Last Updated: June 23, 2015</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

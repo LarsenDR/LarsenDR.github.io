@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="../daveStyle.css" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+		 <h2>Site Index</h2>
+
+	 <p>Site Index is a indirect measure of Forest productivity.  In site index we use the height of a tree at a specified base age.  Carmean et al. 1989 compiled collection of Eastern United States Site Index curves for 110 species. This function takes parameters for these site index equations and produces a tree specifi site index estimate.  </p>
+<p>In imperial units:</p>
+
+<center>
+	<font size="5">
+		$$SI = BH + c_1 H^{c_2} \left( 1 - e^{c_3A} \right)^{c_4 H^{c_5}}$$
+	</font>
+</center>
+<p>
+where: $SI$ is the Site Index in feet, $BH$ is the Breast Height value, $H$ is the total tree height in feet, and $A$ is total tree age in years.
+</p>
+
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial units</b></dt>
+<dd> age = 45 yr</dd>
+<dd> height = 70 ft</dd>
+<dd> species = "QUAL"</dd>
+<dd> Answer = 76.10251 ft </dd>
+</dl>
+</p>
+</dl>
+</p>
+
+<h3>Code</h3>
+<p>
+<h4> Visual Basic</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre > <code>
+Function siteidx(spp As String, age As Single, height As Single) As Double
+' Function to calulate the site index estimated from a single tree
+' given species using USDA codes, age in years, and height in feet
+'
+' As presented in "Site index curves for forest tree species in
+' the eastern United States" by W. Carmean, J. t. Hahn and R. D. Jacobs
+' NCFES General Technical Report NC-128
+'
+' by David Larsen, Copyright July 21, 2000
+' Creative Commons http://creativecommons.org/licenses/by-nc/4.0/us/
+
+If (spp = "QUAL") Then
+    ' Carmean, 1972
+    bht = 0#
+    c1 = 0.3387
+    c2 = 1.0135
+    c3 = -0.0076
+    c4 = -0.9644
+    c5 = -0.0176
+ElseIf (spp = "QUVE") Then
+     ' Carmean, 1972
+    bht = 0#
+    c1 = 0.2598
+    c2 = 1.1721
+    c3 = -0.0107
+    c4 = -2.3272
+    c5 = -0.2825
+ElseIf (spp = "QUCO2") Then
+     ' Carmean, 1972
+    bht = 0#
+    c1 = 0.7423
+    c2 = 0.9677
+    c3 = -0.0223
+    c4 = -1.026
+    c5 = -0.0137
+ElseIf (spp = "mcquilkin") Then
+     ' McQuilkin, 1978
+    bht = 0#
+    c1 = 0.0064
+    c2 = 1.6595
+    c3 = -0.0003
+    c4 = -1.866
+    c5 = -0.2916
+ElseIf (spp = "upland") Then
+     ' Schnur, 1937
+    bht = 0#
+    c1 = 0.189
+    c2 = 1.2031
+    c3 = -0.0081
+    c4 = -2.1975
+    c5 = -0.2582
+Else
+    si = 0#
+    MsgBox ("Unknown species ")
+End If
+
+siteidx = bht + (c1 * (height ^ c2)) * (1 - Exp(c3 * age)) ^ (c4 * (height ^ c5))
+
+End Function</code></pre></div>
+</div>
+<a href="code/VBS/siteidx.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<p>
+
+
+<!--
+
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+</div>
+<a href="code/R/siteidx.R">R Statistical Package Code</a><br/>
+</p>
+<p>
+<h4> Python Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+</div>
+
+<a href="code/python/siteidx.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+<p>
+<h4> Go Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+</div>
+<a href="">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/siteidx.gotxt">Go Code</a>
+</p>
+<p>
+ -->
+
+Note the go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" width="88" style="border-width:0" src="../nr3110/images/by-sa.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Natural Resources Biometrics</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">David R. Larsen</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2014<br/>
+	 Created: August 18, 2014<br/>
+	 Last Updated: June 23, 2015</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
