@@ -1,0 +1,117 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Natural Resource Biometrics</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<center>
+ <table border="0" width="90%">
+<tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+<center>
+                <b class="green">by David R. Larsen</b><br/>
+                <small class="green">Forestry</small><br/>
+                <small class="green">The School of Natural Resources</small><br/>
+                <small class="green">University of Missouri</small><br/>
+                </center>
+
+<dl>
+ <p> The purpose of the website is to provide a range of computer functions that are of use to foresters.
+Initially, the functions will be provided in as <a href="http://office.microsoft.com/en-us/excel/">Excel&reg; VBS</a> functions,
+as <a href="http://www.r-project.org/">R</a> Statisticial package functions,
+as <a href="http://python.org/">Python</a> functions and
+as <a href="golang.org">Go Language</a> functions.
+I provide my explaination of each function, references to the source to the equations, and source code with test data. </p>
+
+<dt> Key: <b class="green">Topics</b></dt>
+<br/>
+</dl>
+<dt><h2>Summary Statistics   (Stand) </h2>
+<dl>
+<dt><b class="biggreen"> </b><a href="qmd.php"><b class="biggreen">Quadratic Mean Diameter</b></a> (Stand)</dt>
+<dd><small>A quadratic mean of the diameter values. A quadtratic mean is the diameter of the tree of average basal area.</small></dd>
+<dt><b class="biggreen"> </b><a href="basalarea.php"><b class="biggreen">Basal Area Per unit area</b></a> (Stand)</dt>
+<dd><small>Calculate the total basal area per acre or hectare.  Basal area is the cross-sectional area of the stems on an acre or hectare.</small></dd>
+<dt><b class="biggreen"> </b><a href="siteidx.php"><b class="biggreen">Site Index</b></a> (Stand)</dt>
+<dd><small>A measure of site productivity based on age and tree height</small></dd>
+</dl>
+<dt><h2>Stocking Statistics   (Stand) </h2>
+<dl>
+<dt><b class="biggreen"> </b><a href="sdi.php"><b class="biggreen">Stand Density Index</b></a> (Stocking)</dt>
+<dd><small>A measure of relative stand stocking tranlated into 10" or 25.4cm trees.</small></dd>
+<dt><b class="biggreen"> </b><a href="percentStocking.php"><b class="biggreen">Percent Stocking</b></a> (Stocking)</dt>
+<dd><small>A Gingrich percent stocking calulation for a specific tree per acre  and basal area.</small></dd>
+<dt><b class="biggreen"> </b><a href="gingrich.php"><b class="biggreen">Gingrich Stocking Diagram</b></a> (Stocking)</dt>
+<dd><small>A Gingrich Stocking Diagram</small></dd>
+</dl>
+<dt><h2>Volume Equations   (Log) </h2>
+<dl>
+<dt><b class="biggreen"> </b><a href="cubicvolume.php"><b class="biggreen">Cubic</b></a> (Log Volume)</dt>
+<dd><small>Cubic volume (feet or meters) is calculated as the frustum of a geometric shape.</small></dd>
+<dt><b class="biggreen"> </b><a href="doylebfvolume.php"><b class="biggreen">Doyle</b></a> (Log Volume)</dt>
+<dd><small>Doyle log volume.</small></dd>
+<dt><b class="biggreen"> </b><a href="scribnerbfvolume.php"><b class="biggreen">Scribner</b></a> (Log Volume)</dt>
+<dd><small>Scribner log volume.</small></dd>
+<dt><b class="biggreen"> </b><a href="int14bfvolume.php"><b class="biggreen">International</b></a> (Log Volume)</dt>
+<dd><small>Board foot log equations are an estimate of the board foot products that people will make from a log of specified dimensions.</small></dd>
+</dl>
+<dt><h2>Volume Equations   (Tree) </h2>
+<dl>
+<dt><b class="biggreen"> </b><a href="treevolume.php"><b class="biggreen">Beer's Tree Volume</b></a> (Volume)</dt>
+<dd><small>Tree volume equations estimate the cubic or board foot volume is a tree given diameter at breast height and the merchantable height.</small></dd>
+<dt><b class="biggreen"> </b><a href="mesavage.php"><b class="biggreen">Mesavage and Girard's Tree Volume</b></a> (Volume)</dt>
+<dd><small>The board foot tree volume equations produce the number in Mesavage and Girard. 1946. Tree volume tables.</small></dd>
+<dt><b class="biggreen"> </b><a href="density.php"><b class="biggreen">Wood Density</b></a> (Volume)</dt>
+<dd><small>Determine the weight of a cubic unit of wood given specific gravity & moisture content.</small></dd>
+</dl>
+<dt><h2>Acorns   (Tree) </h2>
+<dl>
+<dt><b class="biggreen"> </b><a href="acornwt.php"><b class="biggreen">Average Acorn Weight</b></a> (Volume)</dt>
+<dd><small>Average acorn weight in pounds as predicted from Diameter at breast height (DBH) and species of oak. a Table from Down, 1944 was fit with polynomial equations to allow a formula represntation of the tabular data.</small></dd>
+
+  </dl>
+  </td>
+  </tr>
+  <tr>
+  <td>
+<h1>References</h1>
+<br/>
+<dt><h2>Books </h2>
+<dl>
+<dt> <b class="biggreen">Avery, T. E., H. E. Burkhart</b>. 2002. Forest Measurments 5th Edition. <i>McGraw-Hill</i>. ISBN 0-70-366176-7. 456 pp.<dt> <b class="biggreen">Husch, B., T. W. Beers, J. A. Kershaw, Jr.</b>. 2003. Forest Mensuration 4th Edition. <i>John Wiley & Sons</i>. ISBN 0-471-01850-3. 443 pp.<dt> <b class="biggreen">Johnson, P. S., S. R. Shifley, and R. Rogers</b>. 2002. The Ecology and Silviculture of Oaks. <i>CABI Publishing</i>. ISBN 85199-570-5. 356 pp.<dt> <b class="biggreen">Shivers, B. D., B. E. Borders</b>. 1996. Sampling Techniques for Forest Resource Inventory Mensuration. <i>John Wiley & Sons</i>. ISBN 0-471-10940-1. 365 pp.<dt><h2>Papers </h2>
+<dl>
+<dt> <b class="biggreen">Beers, T. W.</b>. 1964. Composite Hardwood Volume Tables.. <i>Purdue University, Agricultural Experiment Station, Lafayette, IN. Research Bulletin</i>. (787):12 p.<dt> <b class="biggreen">Gingrich, S. F.</b>. 1967. Measuring and evaluating stocking and stand density in Upland Hardwood forests in the Central States.. <i>Forest Science</i>. 13():38-53.<dt> <b class="biggreen">Kershaw, Jr, J. A. and B. C. Fischer</b>. 1991. Maximum size-density relationships for sawtimber-sized mixed upland central hardwoods.. <i>In: "The 8th Annual Central Hardwoods Conference",  L. H. McCormick and K. W. Gottschalk eds. USDA, Forest Service, Northeastern Forest Experiment Station, General Technical Report</i>. (NE-148):414-428.<dt> <b class="biggreen">Krajicek, J. E. and K. A. Brinkman and S. F. Gingrich</b>. 1961. Crown competition-a measure of density. <i>Forest Science</i>. 7():35-42.<dt> <b class="biggreen">Larsen, D. R. Dan C. Dey and T Faust</b>. 2010. A Stocking Diagram for Midwestern Eastern Cottonwood-Silver Maple-American Sycamore Bottomland Forests. <i>Northern Journal Of Applied Forestry</i>. 27(4):132-139.<dt> <b class="biggreen">McGill, D. W. and R. Rogers, A. J. Martin, and J. S. Johnson</b>. 1999. Measuring Stocking in Northern Red Oak Stands in Wisconsin. <i>Northern Journal Of Applied Forestry</i>. 16(3):144-150.<dt> <b class="biggreen">Wiant,Jr., H, V.</b>. 1986. Formulas for mesavage and Girard's Volume Tables. <i>Northern Journal Of Applied Forestry</i>. 3(3):124.  </dl>
+  </td>
+  </tr>
+  </table>
+
+  <hr/>
+  <table border="0" width="90%">
+  <tr>
+
+  <tr>
+   <td>
+    <div align="right">
+     <small>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" width="88" style="border-width:0" src="../nr3110/images/by-sa.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Natural Resources Biometrics</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">David R. Larsen</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+       <br/>
+       <br/>
+       Author: Dr. David R. Larsen<br/>
+       Created: June 21, 2015<br/>
+       Last Updated: June 21, 2015</small>
+    </div>
+   </td>
+  </tr>
+ </table>
+</center>
+
+
+</body>
+</html>
