@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="../daveStyle.css" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+        <td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+ <h2>Percent Stocking</h2>
+
+<p>In imperial units:</p>
+
+<center>
+	<font size="5">
+		$$\%s = tpa * ( b_0 + b_1 * \bar{D} + b_2 * \bar{D}_q^2 )$$
+	</font>
+</center>
+<p>
+where: $\%s$ is the percent stocking, $\bar{D}$ is the arithmetic mean in inches, $\bar{D}_q$ is the Quadratic Mean Diameter in inches, $ba$ is the basal area in square feet per acre, $tpa$ is the trees per acre, and 0.005454154 is a constant.
+</p>
+
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial units</b></dt>
+<dd> ba = 100 ft<sup>2</sup>/ac</dd>
+<dd> tpa = 200</dd>
+<dd> foresttype = "upland.oak"</dd>
+<dd> Answer = 86.0313 </dd> <br/>
+<dd> ba = 50 ft<sup>2</sup>/ac</dd>
+<dd> tpa = 100</dd>
+<dd> foresttype = "northern.red.oak"</dd>
+<dd> Answer = 51.151 </dd>
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4> Visual Basic</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+Function percentStocking(ba As Single, tpa As Single, Optional foresttype As String = "upland.oak") As Double
+' Function to calculate quadratic mean diameter from basal area per acre and trees per acre
+' by David R. Larsen, Copyright November 16, 2012
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+dq = Math.Sqr((ba / tpa) / 0.005454154)
+amd = (-0.259 + (0.973 * dq))
+If (foresttype = "upland.oak") Then
+  percentStocking = (tpa * (-0.00507 + 0.01698 * amd + 0.00307 * dq ^ 2))
+ElseIf (foresttype = "northern.red.oak") Then
+  percentStocking = (tpa * (0.02476 + 0.004182 * amd + 0.00267 * dq ^ 2))
+ElseIf (foresttype = "sugar.maple") Then
+  percentStocking = (tpa * (-0.003082 + 0.006272 * amd + 0.00469 * dq ^ 2))
+ElseIf (foresttype = "black.cherry") Then
+  percentStocking = (tpa * (0.02794 + 0.01545 * amd + 0.000871 * dq ^ 2))
+ElseIf (foresttype = "red.maple") Then
+  percentStocking = (tpa * (-0.01798 + 0.02143 * amd + 0.001711 * dq ^ 2))
+ElseIf (foresttype = "black.walnut") Then
+  percentStocking = (tpa * (0.01646 + 0.01347 * amd + 0.002757 * dq ^ 2))
+ElseIf (foresttype = "shortleaf.pine") Then
+  percentStocking = (tpa * (0.008798 + 0.009435 * amd + 0.00253 * dq ^ 2))
+ElseIf (foresttype = "cottonwood.silver.maple") Then
+  percentStocking = (tpa * (-0.0685724 + 0.0010125 * amd + 0.0023656 * dq ^ 2))
+Else
+  percentStocking = 0#
+  MsgBox ("Unknown forest type, options are: upland.oak, northern.red.oak, sugar.maple, black.cherry, red.maple, black.walnut, shortleaf.pine, cottonwood.silver.maple")
+End If
+If (percentStocking < 0#) Then
+  percentStocking = 0#
+End If
+
+End Function
+
+
+</code></pre>
+</div>
+<a href="code/VBS/percentstocking.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<p>
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+percent.stocking = function( tpa, ba, b = c(-0.00507, 0.01698, 0.00317), adj=1 )
+{
+#
+#  Routine to calculate the percent stocking from tpa and ba
+#
+# these equations have only been developed in imperial units.
+#
+#  by David Larsen, Copyright January 20, 1999
+#
+  dia <- qmd( tpa=tpa, ba=ba )
+  amd <- -0.259+.973*dia
+  percent <- (tpa*(b[1]+b[2]*amd+b[3]*dia^2))
+  if( percent < 0.0 ) percent = 0.0
+  percent
+}
+
+
+qmd = function( ba, tpa, unittype="imperial" )
+{
+# Function to calculate the quadratic mean diameter from basal area and tree per acre
+# by David R. Larsen, Copyright October 9, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+   if (unittype == "imperial"){
+       qmd = sqrt((ba / tpa) / 0.005454154)
+   }else if (unitype == "metric"){
+       qmd = sqrt((ba / tpa) / 0.00007854)
+   }else{
+       qmd = 0
+   }
+   qmd
+}
+
+upland.oak <- c(-0.00507, 0.01698, 0.00317)
+northern.red.oak <- c(-0.02476, 0.004182, 0.00267)
+sugar.maple <- c(-0.003082, 0.006272, 0.00469)
+black.cherry <- c(-0.002794, 0.01545, 0.000871)
+red.maple <- c(-0.01798, 0.02143, 0.001711)
+black.walnut <- c(0.01646, 0.01347, 0.002757)
+shortleaf.pine <- c(0.008798, 0.009435, 0.00253)</code></pre>
+</div>
+<a href="code/R/percent.stocking.R">R Statistical Package Code</a><br/>
+</p>
+<p>
+<h4> Python Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+#
+# Function to calculate percent stocking
+# from basal area per acre and tree per acre
+#
+# by David R. Larsen, November 16, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+import math
+
+#
+# Percent stocking has only been worked out for imperial measurements
+#
+
+def parameters(type="upland.oak"):
+  if( type == "upland.oak" ):
+     value = [-0.00507,0.01698,0.00307]
+  elif( type == "northern.red.oak" ):
+     value = [0.02476,0.006272,0.00469]
+  else:
+     value = [-0.00507,0.01698,0.00307]
+  return value
+
+#
+# qmd is a function to return the quadratic mean diameter
+# given basal area per acre and trees per acre
+#
+
+def qmd( ba, tpa):
+  value = math.sqrt( ((ba/tpa)/0.005454154) )
+  return value
+#
+# percentStocking is a function that return the percent stocking using a Gingrich style tree area equation
+#
+
+def percentStocking( ba, tpa, type="upland.oak" ):
+  dia = qmd( ba, tpa )
+  amd = -0.259 + 0.973 * dia
+  b = parameters( type )
+  percent = (b[0] + b[1] * amd + b[2] * dia**2 ) * tpa
+  if( percent < 0.0 ):
+    percent = 0.0
+  return percent
+
+
+# testing
+print "      percent stocking( 55, 100, \"upland.oak\") = ", percentStocking( 55.0, 100.0, type="upland.oak")
+print "     percent stocking( 100, 200, \"upland.oak\") = ", percentStocking( 100.0, 200.0, type="upland.oak")
+print "percent stocking( 50, 100, \"northern.red.oak\") = ", percentStocking( 50.0, 100.0, type="northern.red.oak")
+print "      percent stocking( 100, 50, \"upland.oak\") = ", percentStocking( 100.0, 50.0, type="upland.oak")
+print "      percent stocking( 50, 400, \"upland.oak\") = ", percentStocking( 50.0, 400.0, type="upland.oak")
+</code></pre>
+</div>
+<a href="code/python/percentStocking.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<h4> Go Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate precent stocking
+// from basal area  and tree per acre
+// by David R. Larsen, September 12, 2013
+// Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+package main
+
+import (
+	"fmt"
+	"math"
+	"strings"
+)
+
+//  Percent stocking has only been worked out for imperial measurements
+
+func parameters(group string) []float64 {
+	value := []float64{ -0.00507, 0.01698, 0.00307 }
+	if strings.Contains( group, "northern.red.oak" ) {
+	   value = []float64{ 0.02476, 0.006272, 0.00469 }
+	}
+	return value
+}
+
+// Function to calculate a quadratic mean
+func qmd(ba float64, tpa float64) float64 {
+	val := math.Sqrt( ((ba / tpa) / 0.005454154) )
+	return val
+}
+
+// percentStocking is a function that return the percent stocking
+// using a Gingrich style tree area equation
+func percentStocking(ba float64, tpa float64, group string) float64 {
+	var percent float64
+        dia := qmd( ba, tpa )
+	amd := -0.259 + 0.973 * dia
+	b := parameters( group )
+	percent = (b[0] + b[1] * amd + b[2] * math.Pow(dia, 2.0)) * tpa
+	if percent < 0.0 {
+	    percent = 0.0
+	}
+	return percent
+}
+
+func main() {
+	fmt.Println("percent stocking( 55, 100, \"upland.oak\") = ", percentStocking(55.0, 100.0, "upland.oak"))
+	fmt.Println("percent stocking( 100, 200, \"upland.oak\") = ", percentStocking(100.0, 200.0, "upland.oak"))
+	fmt.Println("percent stocking( 50, 100, \"northern.red.oak\") = ", percentStocking(50.0, 100.0, "northern.red.oak"))
+	fmt.Println("percent stocking( 100, 50, \"upland.oak\") = ", percentStocking(100.0, 50.0, "upland.oak"))
+	fmt.Println("percent stocking( 50, 400, \"upland.oak\") = ", percentStocking(50.0, 400.0, "upland.oak"))
+
+}
+
+</code></pre>
+</div>
+<a href="http://play.golang.org/p/B7le-xWHZE">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/percentStocking.gotxt">Go Code</a>
+</p>
+<p>
+Note the go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: October 9, 2012<br/>
+	 Last Updated: June 23, 2015</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

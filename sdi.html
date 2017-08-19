@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+                <h2>Stand Density Index</h2>
+
+
+		 <p>Stand Density Index first proposed by Reineke, 1933 translate the current stand density into the density of 10 inches trees.
+		 </p>
+
+<p>
+<center>
+  <font size="5" >
+    $$sdi = tpa * \left( \frac{qmd}{10} \right)^{1.605}$$
+  </font>
+</center>
+</p>
+
+<p>
+where $sdi$ is Stand Density Index, $tpa$ is tree per acre, and $qmd$ is quadratic mean diameter in inches.
+</p>
+
+<p>
+<center>
+  <font size="5" >
+    $$sdi = tpha * \left( \frac{qmd}{25.4} \right)^{1.605}$$
+  </font>
+</center>
+</p>
+
+<p>
+where $sdi$ is Stand Density Index, $tpha$ is tree per hectare, and $qmd$ is quadratic mean diameter in centimeters.
+</p>
+
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dd>
+<dd> tpa = 200</dd>
+<dd> qmd = 12.3</dd>
+<dd> unittype = "imperial"</dd>
+<dd> Answer = 278.8</dd>
+</dl>
+</p>
+<p>
+<dl>
+<dt><b>Metric Units</b></dd>
+<dd> tpa = 494.1</dd>
+<dd> qmd = 31</dd>
+<dd> unittype = "metric"</dd>
+<dd> Answer = 680.2</dd>
+</dl>
+</p>
+
+
+<h3>Code</h3>
+<h4> Visual Basic</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+Function sdi(tpa As Single, qmd As Single, Optional unittype as string = "imperial") As Double
+' Function to calculate the Stand Density Index as defined by Reineke, 1933
+' tpa is trees per acre, qmd is the quadratic mean diameter in inches
+' by David R. Larsen, Copyright October, 9, 2012
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+If (unittype = "imperial") Then
+	sdi = tpa * (qmd / 10#) ^ 1.605
+ElseIf (unittype = "metric") Then
+	sdi = tpa * (qmd / 25.4) ^ 1.605
+Else
+    sdi = 0#
+    MsgBox ("Unknown unit type, options are: imperial or metic")
+End If
+End Function
+
+</code></pre>
+</div>
+<a href="code/VBS/sdi.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<p>
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+sdi = function( tpa, qmd, unittype="imperial" )
+{
+# Function to calculate the stand density index
+# by David R. Larsen, Copyright October 9, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+  if (unittype == "imperial" ){
+    sdi = tpa * ( qmd / 10 )^ 1.605
+  }else if ( unittype == "metric" ){
+    sdi = tpa * ( qmd / 25.4)^1.605
+  }else{
+    sdi = 0
+  }
+  sdi
+}
+
+</code></pre>
+</div>
+<a href="code/R/sdi.R">R Statistical Package Code</a><br/>
+</p>
+<p>
+<h4> Python Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate the stand density index
+# from trees per acre and quadratic Mean diameter
+# by David R. Larsen, October 12, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+import math
+
+def sdi( tpa, qmd, unittype="imperial"):
+    if( unittype == "imperial" ):
+       value = tpa * ( qmd / 10.0 )**1.605
+       return value
+    elif( unittype == "metric"):
+       value = tpa * ( qmd / 25.4 )**1.605
+       return value
+    else:
+       print "Unknown unittype, options are imperial or metric"
+       return
+
+print "sdi =", sdi( 200.0, 12.3)
+print "sdi =", sdi( 200.0, 12.3, "imperial")
+print "sdi =", sdi( 494.1, 31, "metric")
+print "sdi =", sdi(1, 1, "cuni:xts")</code></pre>
+</div>
+
+<a href="code/python/sdi.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+<h4> Go Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate stand density index
+// from quadratic mean diameter and tree per acre
+// by David R. Larsen, September 9, 2013
+// Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+// Function to calculate a quadratic mean
+func Sdi( tpa float64, qmd float64, unittype string) float64 {
+	if unittype == "imperial" {
+		return tpa * math.Pow(( qmd / 10.0 ),1.605)
+	}else if unittype == "metric" {
+		return tpa * math.Pow(( qmd / 25.4 ),1.605)
+	}
+	return 0.0
+}
+
+func main() {
+	fmt.Println("sdi =", Sdi(200.0, 12.3, "imperial") )
+	fmt.Println("sdi =", Sdi(494.1, 31.0, "metric") )
+	fmt.Println("sdi =", Sdi(200.0, 1.0, "cunits") )
+}
+</code></pre>
+</div>
+<a href="http://play.golang.org/p/61cTTKtuHg">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/sdi.gotxt">Go Code</a>
+</p>
+<p>
+Note the Go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+		       </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: October 9, 2012<br/>
+	 Last Updated: June 23, 2015</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

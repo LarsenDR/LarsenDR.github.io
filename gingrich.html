@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="../daveStyle.css" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/><h2>Stand Stocking</h2>
+
+    <p>Stand stocking is a measure of site occupancy.  It is often defined as a
+    maximum average stocking.  This is often presented as a relative index
+    (percent stocking).</p>
+
+    <h3>Gingrich Stocking Charts</h3>
+    <p>The Gingrich Diagram was present in 1964, in conference proceedings
+    and again in 1967 in Forest Science.&nbsp; This diagram illustrates the
+    relationship between basal area per acre, density (trees per acres) and
+    the quadratic mean diameter (the diameter of the tree of average basal
+    area).&nbsp; The A-line is based on the normal stocking concept from normal
+    yield tables.&nbsp; Growth in stands above 100% is considered&nbsp; to
+    slow for normal forest management.&nbsp; The B-line is the point of crown
+    closure of trees with a maximum crown width.&nbsp; A stand on the B-line
+    is thought to have trees with no competition, yet no space wasted.&nbsp;
+    The C-line is an estimate based on normal yield table of the lowest stocking
+    that will grow to the B-line within ten years.</p>
+    <center><img src="gingrich.png" width="400" atl="[Image]" ><br>
+    <aa><small><i>Figure 1: Gingrich Stocking Diagram</i></small></aa>
+    </center>
+
+    <ul>
+    <li>
+    <a href="http://oak.snr.missouri.edu/nr3110/topics/gingrich.png">Gingrich stocking
+    chart</a> (PNG format)</li>
+
+    <li>
+    <a href="http://oak.snr.missouri.edu/nr3110/topics/gingrich.pdf">Gingrich stocking
+    chart</a> (PDF format)</li>
+    <li>
+    <a href="http://oak.snr.missouri.edu/nr3110/topics/gingrich.ps">Gingrich stocking
+    chart</a> (Postscript format)</li>
+</ul>
+
+<h4> Visual Basic</h4>
+   <p>
+    <ul>
+    <li>
+    <a href="http://oak.snr.missouri.edu/silviculture/mosilviculture/gingrich.xls">Gingrich stocking
+    chart</a> (Excel97&reg spreadsheet format)</li>
+    <li>
+    <a href="http://oak.snr.missouri.edu/silviculture/mosilviculture/gingrich-upland_oaks.xlsx">Gingrich stocking diagram - upland oaks</a> (Excel 2010 spreadsheet format) </li>
+    <li>
+    <a href="http://oak.snr.missouri.edu/silviculture/mosilviculture/gingrich-bottomland_hardwoods.xlsx">Gingrich stocking - bottomland_hardwoods </a> (Excel 2010 spreadsheet format) </li>
+    <li>
+    <a href="http://oak.snr.missouri.edu/silviculture/mosilviculture/gingrich-northern_red_oak.xlsx">Gingrich stocking - northern_red_oak</a> (Excel 2010 spreadsheet format) </li>
+</ul>
+</p>
+<p>
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+</div>
+</p>
+<h3>References</h3>
+<p>
+    <aa><b>Gingrich, S. F. </b>1967. Measuring and evaluating stocking and
+    stand density in Upland Hardwood forests in the Central States. <i>For.
+    Sci.</i> 13:38-53.</aa>
+<p>
+</p>
+    <aa><b>Husch, B., T. W. Beers and Kershaw, Jr., J. A. </b>. 2003. Forest Mensuration.  Fourth Edition. John Wiley and Sons, New York 402 p.</aa>
+<p>
+</p>
+    <aa><b>Kershaw, Jr, J. A. and B. C. Fischer.</b> 1991. Maximum size-density
+    relationships for sawtimber-sized mixed upland central hardwoods.&nbsp;
+    In: "The 8th Annual Central Hardwoods Conference",&nbsp; L. H. McCormick
+    and K. W. Gottschalk eds. <i>USDA, Forest Service, Northeastern Forest
+    Experiment Station, General Technical Report</i>, NE-148, pp. 414-428.</aa>
+</p>
+<p/>
+    <aa><b>Krajicek, J. E. and K. A. Brinkman and S. F. Gingrich.</b> 1961.
+    Crown competition-a measure of density, <i>For. Sci.</i> 7:35-42.</aa>
+</p>
+<p><b>Larsen, D. R. Dan C. Dey and T Faust</b> 2010. A Stocking Diagram for Midwestern Eastern Cottonwood-Silver Maple-American Sycamore Bottomland Forests. <a href="http://www.safnet.org/publications/northern/index.cfm"><i>Northern Journal of Applied Forestry</i></a> 27(4)132-139.961. </P>
+
+	<p><b>McGill, D.  W.  and R.  Rogers,  A.  J.  Martin, and J. S. Johnson.</b> 1961.  Measuring Stocking in Northern Red Oak Stands in Wisconsin,
+<i>Northern Journal of Applied Forestry</i>  16(3):144-150. </p>
+
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2001<br/>
+	 Created: February 11, 2001<br/>
+	 Last Updated: January 2, 2014</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
