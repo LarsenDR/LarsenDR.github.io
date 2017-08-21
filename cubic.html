@@ -1,0 +1,388 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="../daveStyle.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+<td>
+        <table border="0">
+           <tbody>
+
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+
+                <h2>Cubic Log Volume</h2>
+		 <p>Cubic foot volume is calculated as the frustum of a geometric shape.
+		 </p>
+<h3>Frustum of a paraboloid or Smalain's Formula</h3>
+
+<p>
+
+</p>
+<p>
+<center>
+<img src="images/smalian.png" ><br/>
+<small> Figure 1. A frustum of a paraboloid or often call the Smalian's Formula.</small>
+</center>
+</p>
+<p>
+<center>
+  <font size="5">
+    $$V = \frac{L}{2} \left( As + Al \right)$$
+  </font>
+</center>
+</p>
+<p>
+where $V$ is the cubic Volume in the dimensions of $L^3$, $As$ is the area of the small end in dimensions of $L^2$, $Al$ is the area of the large end in dimensions of $L^2$.  Note the diameter of the ends are ususally no measured in the same units as $L$ so the units must be converted.
+</p>
+
+<h3>Frustum of a cone.</h3>
+<p>
+</p>
+<p>
+<center>
+<img src="images/cone.png" ><br/>
+<small> Figure 2. A frustum of a cone.</small>
+</center>
+</p>
+<p>
+<center>
+  <font size="5">
+    $$V = \frac{L}{3} \left( As + \sqrt{As Al} + Al \right)$$
+  </font>
+</center>
+</p>
+<p>
+where $V$ is the cubic Volume in the dimensions of $L^3$, $As$ is the area of the small end in dimensions of $L^2$, $Al$ is the area of the large end in dimensions of $L^2$.  Note the diameter of the ends are ususally no measured in the same units as $L$ so the units must be converted.
+</p>
+<h3>Frustum of a neiloid </h3>
+<p>
+</p>
+<p>
+<center>
+<img src="images/neloid.png" ><br/>
+<small> Figure 3. A frustum of a neiloid.</small>
+</center>
+<br/>
+</p>
+<p>
+<center>
+  <font size="5">
+    $$V = \frac{L}{4} \left( As + \sqrt[3]{As^2 Al} + \sqrt[3]{As Al^2} + Al \right)$$
+  </font>
+</center>
+</p>
+<p>
+where $V$ is the cubic Volume in the dimensions of $L^3$, $As$ is the area of the small end in dimensions of $L^2$, $Al$ is the area of the large end in dimensions of $L^2$.  Note the diameter of the ends are ususally no measured in the same units as $L$ so the units must be converted.
+</p>
+
+
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> dia small = 10 in inches</dd>
+<dd> dia large = 12 in inches</dd>
+<dd> L = 16 feet</dd>
+<dd> unittype = "imperial"</dd>
+<dd> Answer (smalian) = 10.647 cubic feet</dd>
+<dd> Answer (cone) = 10.588 cubic feet</dd>
+<dd> Answer (neiloid) = 10.568 cubic feet</dd>
+</dl>
+</p>
+<p>
+<dl>
+<dt><b>Metric Units</b></dt>
+<dd> dia small = 25 in centimeters</dd>
+<dd> dia small = 29 in centimeters</dd>
+<dd> L = 5 in meters</dd>
+<dd> unittype = "metric"</dd>
+<dd> Answer (smalian) = 0.287848 cubic meters</dd>
+<dd> Answer (cone) = 0.286801 cubic meters</dd>
+<dd> Answer (neiloid) = 0.286452 cubic meters</dd>
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4>Visual Basic</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+Function logVolume(sdia As Single, ldia As Single, length As Single, Optional equationtype As String = "smalian", Optional unittype As String = "imperial") As Double
+' Function to calculate the Cubic volume of a log.
+' You must specify both unittype and equationtype.
+' by David R. Larsen, Copyright October 9, 2012
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+Const PI = 3.14159265358979
+If (unittype = "none") Then
+    sarea = PI / 4# * (sdia) ^ 2
+    larea = PI / 4# * (ldia) ^ 2
+ElseIf (unittype = "imperial") Then
+    sarea = PI / 4# * (sdia / 12#) ^ 2
+    larea = PI / 4# * (ldia / 12#) ^ 2
+ElseIf (unittype = "metric") Then
+    sarea = PI / 4# * (sdia / 100#) ^ 2
+    larea = PI / 4# * (ldia / 100#) ^ 2
+Else
+    logVolume = 0#
+    MsgBox ("Unknown unittype, Options are: none, imperial or metric")
+End If
+
+If (equationtype = "smalian") Then
+    logVolume = length / 2# * (sarea + larea)
+ElseIf (equationtype = "cone") Then
+    logVolume = length / 3# * (sarea + Math.Sqr(sarea * larea) + larea)
+ElseIf (equationtype = "neloid") Then
+    logVolume = length / 4# * (sarea + (sarea ^ 2 * larea) ^ (1 / 3) + (sarea * larea ^ 2) ^ (1 / 3) + larea)
+Else
+    logVolume = 0#
+    MsgBox ("Unknown equationtype, Options are: smalian, cone or neloid")
+End If
+
+
+End Function
+
+</code></pre>
+</div>
+<a href="code/VBS/logVolume.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<h4> R Statistical Package Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+cubicvolume=function( sdia, ldia, length,  unittype="imperial", sameunits=F )
+{
+# Function to calculate omined cubic volume formula
+# by David R. Larsen, Copyright October 30, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+   smalian = 0
+   if (unittype == "imperial"){
+       if( sameunits == T ){
+         As = pi * sdia^2
+         Al = pi * ldia^2
+       }else{
+         As = pi / (4.0 * 144.0) * (sdia)^2
+         Al = pi / (4.0 * 144.0) * (ldia)^2
+       }
+   }else if (unitype == "metric"){
+       if( sameunits == T ){
+         As = pi * sdia^2
+         Al = pi * ldia^2
+       }else{
+         As = pi / (4.0 * 10000.0) * (sdia)^2
+         Al = pi / (4.0 * 10000.0) * (ldia)^2
+       }
+   }else{
+     cat( "Error: unknown unittype" )
+   }
+   smalian = length / 2 * ( As + Al )
+   cone = length / 3 * ( As + sqrt(As * Al) + Al )
+   neiloid = length / 4 * (As + cbrt( As^2 * Al ) + cbrt( As * Al^2) +  Al )
+   list( smalian=smalian, cone=cone, neiloid=neiloid)
+}
+
+
+cbrt=function(a){
+# function to calculate a cube root
+ sign(a) * abs(a)^(1/3)
+}
+</code></pre>
+</div>
+<a href="code/R/cubicvolume.R">R Statistical Package Code</a><br/>
+</p>
+<h4> Python Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate  cubic volume
+# from small end diameter, large end diameter and log length
+# by David R. Larsen, October 30, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+import math
+
+def cbrt( a ):
+    cubert= (a**(1 / 3.0))
+    return cubert
+
+def cubicvolume( sdia, ldia, length, equationtype="smailian", unittype="imperial", sameunits=False):
+    if( unittype == "imperial" ):
+       if( sameunits == True ):
+         As = math.pi * sdia**2.0
+         Al = math.pi * ldia**2.0
+       else:
+         As = math.pi / (4.0 * 144.0) * (sdia)**2.0
+         Al = math.pi / (4.0 * 144.0) * (ldia)**2.0
+
+       if( equationtype == "smailian" ):
+          value = length / 2.0 * ( As + Al )
+          return value
+       elif( equationtype == "cone"):
+          value = length / 3.0 * ( As + math.sqrt( As * Al) + Al )
+          return value
+       elif (equationtype == "neiloid" ):
+          value = length / 4.0 * ( As + cbrt( As ** 2 * Al) + cbrt( As * Al ** 2) + Al )
+          return value
+    elif( unittype == "metric"):
+       if( sameunits == True ):
+         As = math.pi * sdia**2.0
+         Al = math.pi * ldia**2.0
+       else:
+         As = math.pi / (4.0 * 10000.0) * (sdia)**2.0
+         Al = math.pi / (4.0 * 10000.0) * (ldia)**2.0
+
+       if( equationtype == "smailian" ):
+          value = length / 2.0 * ( As + Al )
+          return value
+       elif( equationtype == "cone"):
+          value = length / 3.0 * ( As + math.sqrt( As * Al) + Al )
+          return value
+       elif (equationtype == "neiloid" ):
+          value = length / 4.0 * ( As + cbrt( As ** 2 * Al) + cbrt( As * Al ** 2) + Al )
+          return value
+    else:
+       print "Unknown unittype, options are imperial or metric"
+       return
+
+print "smalian =", cubicvolume( 11.0, 10.0, 16.0)
+print "smalian =", cubicvolume( 11.0, 10.0, 16.0, "smailian", "imperial")
+print "smalian =", cubicvolume( 28.0, 25.0, 4.8, "smailian", "metric")
+print "smalian =", cubicvolume( 11.0, 10.0, 16.0, "smailian", "cunits")
+print "cone =", cubicvolume( 11.0, 10.0, 16.0, "cone")
+print "cone =", cubicvolume( 11.0, 10.0, 16.0, "cone", "imperial")
+print "cone =", cubicvolume( 28.0, 25.0, 4.8, "cone", "metric")
+print "cone =", cubicvolume( 11.0, 10.0, 16.0, "cone", "cunits")
+print "neiloid =", cubicvolume( 11.0, 10.0, 16.0, "neiloid")
+print "neiloid =", cubicvolume( 11.0, 10.0, 16.0, "neiloid", "imperial")
+print "neiloid =", cubicvolume( 28.0, 25.0, 4.8, "neiloid", "metric")
+print "neiloid =", cubicvolume( 11.0, 10.0, 16.0, "neiloid", "cunits")
+</code></pre>
+</div>
+<a href="code/python/cubicvolume.pytxt">Python Code</a><br/>
+</p>
+
+<p>
+<h4> Go Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate  cubic volume
+// from small end diameter, large end diameter and log length
+// by David R. Larsen, October 30, 2012
+// Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func cubicvolume(sdia float64, ldia float64, length float64, equationtype string, unittype string, sameunits bool) float64 {
+	var As float64
+	var Al float64
+	var value float64
+	if unittype == "imperial" {
+		if sameunits == true {
+			As = math.Pi * math.Pow(sdia, 2.0)
+			Al = math.Pi * math.Pow(ldia, 2.0)
+		} else {
+			As = math.Pi / (4.0 * 144.0) * math.Pow((sdia), 2.0)
+			Al = math.Pi / (4.0 * 144.0) * math.Pow((ldia), 2.0)
+		}
+
+		if equationtype == "smailian" {
+			value = length / 2.0 * (As + Al)
+		} else if equationtype == "cone" {
+			value = length / 3.0 * (As + math.Sqrt(As*Al) + Al)
+		} else if equationtype == "neiloid" {
+			value = length / 4.0 * (As + math.Cbrt(math.Pow(As, 2.0)*Al) + math.Cbrt(As*math.Pow(Al, 2.0)) + Al)
+		}
+	} else if unittype == "metric" {
+		if sameunits == true {
+			As = math.Pi * math.Pow(sdia, 2.0)
+			Al = math.Pi * math.Pow(ldia, 2.0)
+		} else {
+			As = math.Pi / (4.0 * 10000.0) * math.Pow((sdia), 2.0)
+			Al = math.Pi / (4.0 * 10000.0) * math.Pow((ldia), 2.0)
+		}
+
+		if equationtype == "smailian" {
+			value = length / 2.0 * (As + Al)
+		} else if equationtype == "cone" {
+			value = length / 3.0 * (As + math.Sqrt(As*Al) + Al)
+		} else if equationtype == "neiloid" {
+			value = length / 4.0 * (As + math.Cbrt(math.Pow(As, 2.0)*Al) + math.Cbrt(As*math.Pow(Al, 2)) + Al)
+		}
+	} else {
+		fmt.Println("Unknown unittype,", unittype, " options are imperial or metric")
+	}
+	return value
+}
+
+func main() {
+	fmt.Println("smalian =", cubicvolume(10.0, 12.0, 16.0, "smailian", "imperial", false))
+	fmt.Println("smalian =", cubicvolume(25.0, 29.0, 5.0, "smailian", "metric", false))
+	fmt.Println("smalian =", cubicvolume(10.0, 12.0, 16.0, "smailian", "cunits", false))
+	fmt.Println("cone =", cubicvolume(10.0, 12.0, 16.0, "cone", "imperial", false))
+	fmt.Println("cone =", cubicvolume(25.0, 29.0, 5.0, "cone", "metric", false))
+	fmt.Println("cone =", cubicvolume(10.0, 12.0, 16.0, "cone", "cunits", false))
+	fmt.Println("neiloid =", cubicvolume(10.0, 12.0, 16.0, "neiloid", "imperial", false))
+	fmt.Println("neiloid =", cubicvolume(25.0, 29.0, 5.0, "neiloid", "metric", false))
+	fmt.Println("neiloid =", cubicvolume(10.0, 12.0, 16.0, "neiloid", "cunits", false))
+}
+
+</code></pre>
+</div>
+<a href="http://play.golang.org/p/evp0clVDUG">Try code in Go playground</a>
+<br/>
+<a href="code/go/cubicvolume.gotxt">Go Code</a><br/>
+</p>
+Note the Go files have a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: November 1, 2012<br/>
+	 Last Updated: August 20, 2017</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
