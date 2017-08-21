@@ -1,0 +1,265 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+<h2>Beers Tree Volume equations</h2>
+
+<p>
+These tree volume equations have proven to be useful in many teaching situations here in Missouri.  Published by Tom Beers in 1964 these equations can produce cord, cubic volume without bark, cubic with bark, and International 1/4" board foot volume.
+</p>
+
+<center>
+  <font size="5">
+	$$ a = \frac{D^2(D+190)}{100,000}$$ <br/>
+        $$ b = \frac{1}{100} \left[ \frac{H(168-H)}{64}+\frac{32}{H}\right]$$ <br/>
+        $$ c = 475 + \frac{3H^2}{128}$$<br/><br/>
+
+  </font>
+</center>
+<font size="5">
+Volume in cords $= a * b$<br/>
+Volume in cubic without bark $= 76 * a * b$<br/>
+Volume in cubic with bark $= 92 * a * b$<br/>
+Volume in boardfeet $= a * b * c$<br/>
+</font>
+
+<p>where $D$ is the diameter at breast height in inches, $H$ is the merchantable height in feet, and volumetype can be "cords", "cubic", "cubicbark", or "boardfeet".
+</p>
+
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> D = 10 in inches</dd>
+<dd> L = 26 feet</dd>
+<dd> unittype = "cubicbark"</dd>
+<dd> Answer = 10.84 cubic feet</dd> <br/>
+<dd> D = 10 in inches</dd>
+<dd> L = 26 feet</dd>
+<dd> unittype = "boardfeet"</dd>
+<dd> Answer =  57.84 board feet</dd>
+</dl>
+</p>
+<p>
+Board feet is a imperial units only system.
+</p>
+
+<h3>Code</h3>
+<h4> Visual Basic</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+Function volume(dbh As Single, mht As Single, Optional vtype As String = "boardfeet") As Double
+'Function to calculate volume from Beers 1964
+'By David R. Larsen, Copyright October 8, 2012
+
+
+If (mht > 0#) Then
+  a = ((dbh ^ 2 * (dbh + 190#)) / 100000#)
+  b = (1# / 100#) * (((mht * (168# - mht)) / 64#) + (32# / mht))
+  c = 475# + ((3# * mht ^ 2) / 128#)
+
+  If (vtype = "cords") Then
+    volume = a * b
+  ElseIf (vtype = "cubic") Then
+    volume = a * b * 76
+  ElseIf (vtype = "cubicbark") Then
+    volume = a * b * 92
+  ElseIf (vtype = "boardfeet") Then
+    volume = a * b * c
+  Else
+    volume = 0#
+    MsgBox (" vtype must be cords, cubic, cubicbark, or boardfoot")
+  End If
+Else
+  volume = 0#
+End If
+End Function
+
+
+</code></pre>
+</div>
+<a href="code/VBS/treevolume.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<p>
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+treeVolume = function( dbh, mht, volumeType="boardfeet" )
+{
+# Function to calculate the volume of a tree using Beers, 1964
+# by David R. Larsen, Copyright November 2, 2012
+#
+  volume = 0
+  if ( mht > 0 ){
+    a = (dbh^2 * (dbh + 190))/ 100000
+    b = 1/100 * ((mht * (168 - mht))/64 + (32/mht))
+    c = 475 + (3 * mht^2) / 128
+    if( volumeType == "cords" ){
+       volume = a * b
+    }else if( volumeType == "cubic" ){
+       volume = 76 * a * b
+    }else if( volumeType == "cubicbark" ){
+       volume = 92 * a * b
+    }else if( volumeType == "boardfeet" ){
+       volume = a * b * c
+    }
+  }
+  volume
+}</code></pre>
+</div>
+<a href="code/R/treevolume.R">R Statistical Package Code</a><br/>
+</p>
+<p>
+<h4> Python Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate the Beers, 1964 tree volume
+# from diameter at breast height and merchantable height
+# by David R. Larsen, October 11, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+def treeVolume( dbh, mht, volumeType="boardfeet"):
+    if ( mht > 0.0 ):
+       a = (dbh**2 * (dbh + 190.0))/ 100000.0
+       b = 1.0/100.0 * ((mht * (168.0 - mht))/64.0 + (32.0/mht))
+       c = 475.0 + (3.0 * mht**2) / 128.0
+
+       if( volumeType == "cords" ):
+          volume = a * b
+       elif( volumeType == "cubic" ):
+          volume = 76.0 * a * b
+       elif( volumeType == "cubicbark" ):
+          volume = 92.0 * a * b
+       elif( volumeType == "boardfeet" ):
+          volume = a * b * c
+       else:
+	  volume = 0.0
+
+    return volume
+
+print "Cords =", treeVolume(dbh=10,mht=26,volumeType="cords")
+print "Cubic =", treeVolume(dbh=10,mht=26,volumeType="cubic")
+print "Cubic with bark =", treeVolume(dbh=10,mht=26,volumeType="cubicbark")
+print "International 1/4 boardfeet =", treeVolume(dbh=10,mht=26,volumeType="boardfeet")</code></pre>
+</div>
+
+<a href="code/python/treeVolume.pytxt">Python Code</a>
+</p>
+
+<p>
+Note the python files has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<p>
+<h4> Go Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate the Beers, 1964 tree volume
+// from diameter at breast height and merchantable height
+// by David R. Larsen, October 11, 2012
+// Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func treeVolume(dbh float64, mht float64, volumeType string) float64 {
+	var volume float64
+	if mht > 0.0 {
+		a := (math.Pow(dbh, 2.0) * (dbh + 190.0)) / 100000.0
+		b := 1.0 / 100.0 * ((mht*(168.0-mht))/64.0 + (32.0 / mht))
+		c := 475.0 + (3.0*math.Pow(mht, 2.0))/128.0
+
+		if volumeType == "cords" {
+			volume = a * b
+		} else if volumeType == "cubic" {
+			volume = 76.0 * a * b
+		} else if volumeType == "cubicbark" {
+			volume = 92.0 * a * b
+		} else if volumeType == "boardfeet" {
+			volume = a * b * c
+		} else {
+			volume = 0.0
+		}
+		return volume
+	}
+	return 0.0
+}
+
+func main() {
+	fmt.Println("Cords =", treeVolume(10, 26, "cords"))
+	fmt.Println("Cubic =", treeVolume(10, 26, "cubic"))
+	fmt.Println("Cubic with bark =", treeVolume(10, 26, "cubicbark"))
+	fmt.Println("International 1/4 boardfeet =", treeVolume(10, 26, "boardfeet"))
+}
+</code></pre>
+</div>
+<a href="http://play.golang.org/p/l4DlkBTPQf">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/treevolume.gotxt">Go Code</a>
+</p>
+
+<p>
+Note the Go files has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<h3>Reference</h3>
+<p> <b>Beers, T. W.</b> 1964 Composite Hardwood Volume Tables. <i>Purdue University, Agricultural Experiment Station, Lafayette, IN. Research Bulletin</i> 787. 12p.
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: November 1, 2012<br/>
+	 Last Updated: June 23, 2015</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

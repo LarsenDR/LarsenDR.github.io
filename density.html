@@ -1,0 +1,208 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+                <h2>Wood Density in weight per cubic dimension</h2>
+		 <p>determine the weight of a cubic unit of wood given secific gravity & moisture content.
+		 </p>
+
+<p>
+<center>
+  <font size="5">
+    $$\rho_x = \rho_w G_x \left( 1 + x / 100 \right)$$
+  </font>
+</center>
+</p>
+
+<p>
+where $\rho_x$ is the wood densityn the same units as the water density, $\rho_w$ is the water density in the units of interest, $G_x$ is the specific gravity at a specified moisture content, and $x$ is the desired output moisture content.
+The equation from Wood Handbook Chapter 4, page 10-12,  General Technical Report FPL-GTR 190.
+</p>
+
+<p>
+"Specific gravity $G_x$  is defined as the ratio of the density of a substance to the density of water $\rho_w$ at a specified reference temperature, typically 4&deg; C (39&deg; F), where $\rho_w$  is 1.000 g cm-3 (1,000 kg m-3 or 62.43 lb ft-3)." (Wood Handbook)
+</p>
+
+</p>
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> sg or $\rho_x$ = 0.4 </dd>
+<dd> mc or $x$ = 12.0</dd>
+<dd> wdensity of $\rho_w$ = 62.43 cf ft-3 or 1000 kg m-3</dd>
+<dd> Answer = 27.968 lb. ft-3 or 448 kg m-3</dd>
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4>Visual Basic</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+
+<pre> <code>
+Function density(specificgravity As Single, Optional moisturecontent As Single = 12#, Optional waterdensity As Single = 62.43)
+' Function to calculate the density of a cubic unit of wood.
+' waterdensity must in in the unit desired for output.
+' by David R. Larsen, Copyright June 2, 2015
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+'
+' "Specific gravity G  is defined as the ratio of the density of a substance
+' to the density of water pw at a specified reference temperature, typically
+' 4 C (39 F), where pw  is 1.000 g cm-3(1,000 kg m-3 or 62.43 lb ft-3)." (Wood Handbook)
+' Equation from Wood Handbook Chapter 4, page 10-12,  General Technical Report FPL-GTR 190
+
+density = waterdensity * specificgravity * (1 + (moisturecontent / 100#))
+
+End Function
+</code></pre>
+</div>
+
+<a href="code/VBS/density.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<h4>R Statistical Package Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+density=function( sg, mc=12.0, waterdensity=62.43 )
+{
+# Function to calculate the density of a cubic unit of wood.
+# waterdensity must in in the unit desired for output.
+# by David R. Larsen, Copyright June 2, 2015
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+#
+# "Specific gravity G  is defined as the ratio of the density of a substance
+# to the density of water pw at a specified reference temperature, typically
+# 4 C (39 F), where pw  is 1.000 g cm-3(1,000 kg m-3 or 62.43 lb ft-3)." (Wood Handbook)
+# Equation from Wood Handbook Chapter 4, page 10-12,  General Technical Report FPL-GTR 190
+
+density = waterdensity * sg * (1 + (mc / 100.0))
+density
+
+}
+</code></pre>
+</div>
+
+<a href="code/R/density.R">R Statistical Package Code</a><br/>
+</p>
+
+<h4>Python Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate the density of a cubic unit of wood.
+# waterdensity must in in the unit desired for output.
+# by David R. Larsen, Copyright June 2, 2015
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+#
+# "Specific gravity G  is defined as the ratio of the density of a substance
+# to the density of water pw at a specified reference temperature, typically
+# 4 C (39 F), where pw  is 1.000 g cm-3(1,000 kg m-3 or 62.43 lb ft-3)." (Wood Handbook)
+# Equation from Wood Handbook Chapter 4, page 10-12,  General Technical Report FPL-GTR 190
+
+def density( sg, mc=12.0, waterdensity=62.43):
+	density = waterdensity * sg * (1 + (mc / 100.0))
+	return density
+
+print "imperial =", density( 0.4 )
+print "imperial =", density( 0.4, 12.0, 62.43)
+print "si =", density( 0.4, 12.0, 1000.0)
+</code></pre>
+</div>
+<a href="code/python/density.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<h4> Go Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+// Function to calculate the density of a cubic unit of wood.
+// waterdensity must in in the unit desired for output.
+// by David R. Larsen, Copyright June 2, 2015
+// Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+//
+// "Specific gravity G  is defined as the ratio of the density of a substance
+// to the density of water pw at a specified reference temperature, typically
+// 4 C (39 F), where pw  is 1.000 g cm-3(1,000 kg m-3 or 62.43 lb ft-3)." (Wood Handbook)
+// Equation from Wood Handbook Chapter 4, page 10-12,  General Technical Report FPL-GTR 190
+package main
+
+import (
+	"fmt"
+)
+
+func density(sg float64, mc float64, wdensity float64) float64 {
+	density := wdensity * sg * (1 + (mc / 100.0))
+	return density
+}
+
+func main() {
+	fmt.Println("imperial =", density(0.4, 12.0, 62.43))
+	fmt.Println("si =", density(0.4, 12.0, 1000.0))
+}
+</code></pre>
+</div>
+<a href="">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/density.gotxt">Go Code</a>
+</p>
+<p>
+Note the Go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="img/by-sa.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: June 2, 2015<br/>
+	 Last Updated: August 20, 2017</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
