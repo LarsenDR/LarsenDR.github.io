@@ -1,0 +1,193 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+	<td>
+        <table border="0">
+           <tbody>
+             <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+                <h2>Doyle Boardfoot Log Volume</h2>
+		 <p>This is one of the most widely use and well as one of the oldest log rules.  The rule was developed by Edward Doyle in 1825.   The rule states:
+
+    "Deduct 4 inches from the diameter of the log, D, in inches, for slabing, square  one-quarter of the remainder, and multiply by the length of the log, L, in feet."
+
+This is equivalent to squaring the log into a cant and calculating the board feet in the cant.  Doyle assumed 25 % reduction for kerf and shrinkage.  The rule can be stated as:
+		 </p>
+<center>
+  <font size="5">
+$$ V = \frac{(D-4)^2 L}{12}(1.0 - 0.25) $$
+
+$$ V = \left(\frac{D-4}{4}\right)^2 L $$
+  </font>
+</center>
+
+<p>where $V$ is the volume in board feet, $D$ is the small end diameter of the log, and $L$ is the log length.
+
+Known issues include:
+<ol>
+<li>The formula is very simple.</li>
+<li>The rule works best for logs between 26 and 36 inches in diameter.</li>
+<li>Larger logs produce underruns.</li>
+<li>Smaller logs produce overruns.</li>
+</p>
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> dia small = 10 in inches</dd>
+<dd> L = 16 feet</dd>
+<dd> Answer = 36 board feet</dd><br/>
+<dd> dia small = 28 in inches</dd>
+<dd> L = 16 feet</dd>
+<dd> Answer = 576 board feet</dd><br/>
+</dl>
+</p>
+<dt>Board feet is a imperial units only system.
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4> Visual Basic</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+Function bfLogVolume(sdia As Single, length As Single, Optional voltype As String = "int") As Double
+' Function to calculate the Doyle, scribner and International board foot volume of a log
+' sdia is in inches and length is in feet
+' by David R. Larsen, Copyright October 9, 2012
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+If (voltype = "doyle") Then
+    bfLogVolume = ((sdia - 4) / 4) ^ 2 * length
+ElseIf (voltype = "scribner") Then
+    bfLogVolume = (0.79 * sdia ^ 2 - 2# * sdia - 4#) * (length / 16#)
+ElseIf (voltype = "int") Then
+    If (length = 4#) Then
+        bfLogVolume = 0.22 * sdia ^ 2 - 0.71 * sdia
+    ElseIf (length = 8#) Then
+        bfLogVolume = 0.44 * sdia ^ 2 - 1.2 * sdia - 0.3
+    ElseIf (length = 12#) Then
+        bfLogVolume = 0.66 * sdia ^ 2 - 1.47 * sdia - 0.79
+    ElseIf (length = 16#) Then
+        bfLogVolume = 0.88 * sdia ^ 2 - 1.56 * sdia - 1.36
+    ElseIf (length = 20#) Then
+        bfLogVolume = 1.1 * sdia ^ 2 - 1.35 * sdia - 1.9
+    ElseIf (length = 24#) Then
+        bfLogVolume = 1.1 * sdia ^ 2 - 1.35 * sdia - 1.9 + 0.22 * sdia ^ 2 - 0.71 * sdia
+    ElseIf (length = 28#) Then
+        bfLogVolume = 1.1 * sdia ^ 2 - 1.35 * sdia - 1.9 +  0.44 * sdia ^ 2 - 1.2 * sdia - 0.3
+    ElseIf (length = 32#) Then
+        bfLogVolume = 1.1 * sdia ^ 2 - 1.35 * sdia - 1.9 + 0.66 * sdia ^ 2 - 1.47 * sdia - 0.79
+    ElseIf (length = 36#) Then
+        bfLogVolume = (0.88 * sdia ^ 2 - 1.56 * sdia - 1.36) * 2
+    ElseIf (length = 40#) Then
+        bfLogVolume = (1.1 * sdia ^ 2 - 1.35 * sdia - 1.9 ) * 2
+    Else
+        bfLogVolume = 0
+        MsgBox ("Unknown log length, options are: 4, 8, 12, 16, 20")
+    End If
+
+Else
+    bfLogVolume = 0
+    MsgBox ("Unknown voltype, options are: doyle, scribner, or int")
+End If
+
+End Function
+
+</code></pre>
+</div>
+<a href="code/VBS/bfLogVolume.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<p>
+<h4> R Statistical Package Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+doyle = function( sdia, length )
+{
+# Function to calculate the Doyle Board Foot volume
+# by David R. Larsen, Copyright November 2, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+  doyle = ((sdia - 4) / 4 )^2 * length
+  doyle
+}
+
+</code></pre>
+</div>
+<a href="code/R/doyle.R">R Statistical Package Code</a><br/>
+</p>
+<p>
+<h4> Python Code</h4>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate the Doyle Board foot volume
+# from small end diameter and log length
+# by David R. Larsen, October 11, 2012
+# Creative Commons,  http://creativecommons.org/licenses/by-nc/3.0/us/
+
+
+def doyle( sdia, length):
+    value = (( sdia - 4.0) / 4.0 )**2 * length
+    return value
+
+print "doyle =", doyle(sdia=10,length=16)
+print "doyle =", doyle(sdia=28,length=16)
+</code></pre>
+</div>
+
+<a href="code/python/doyle.pytxt">Python Code</a>
+</p>
+
+<p>
+Note the python files has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="img/by-sa.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: November 1, 2012<br/>
+	 Last Updated: August 20, 2017</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

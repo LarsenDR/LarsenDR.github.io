@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Forestry Functions</title>
+  <link rel="Shortcut Icon" href="http://oak.snr.missouri.edu/sylvan/images/sylview-icon.ico">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+  <script type="text/javascript" asyn
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+
+<body>
+<p></p>
+
+<center>
+<table border="0" width="90%">
+  <tbody>
+    <tr>
+<td width="90%" align="left">
+<div id="header" algin="left" class="bgcol" >
+<h1 align="left" width="90%" style="margin-left:45px; color:white; font-size:38 ">Forest Functions, <small> Computer code to help foresters</small></h1></div>
+<br/>
+
+        <table border="0">
+           <tbody>
+             <tr>
+<td valign="top" align="left" width="20%">
+                <h2>Average Acorn Weight (lb)</h2>
+		 <p>Average acorn weight in pounds as predicted from Diameter at breast height (DBH) and  species of oak. a Table from Down, 1944 was fit with polynomial equations to allow a formula represntation of the tabular data.
+		 </p>
+
+<p>
+Based on:<br/>
+<b>Downs, Albert A.</b> 1944. Estimating acorn crops for wild life in the southern Appalachians. <i>Journal of Wildlife Management</i>. 8(4):339-340.
+</p>
+</p>
+<h3>Example</h3>
+<p>
+<dl>
+<dt><b>Imperial Units</b></dt>
+<dd> dia = 22 in inches</dd>
+<dd> species = "black"</dd>
+<dd> unittype = "imperial"</dd>
+<dd> Answer = 4.6341 lb for that tree</dd>
+</dl>
+</p>
+<p>
+<dl>
+<dt><b>Metric Units</b></dt>
+<dd> dia =  in centimeters</dd>
+<dd> species = </dd>
+<dd> unittype = "metric"</dd>
+<dd> Answer = kg for that tree</dd>
+</dl>
+</p>
+
+<h3>Code</h3>
+<h4>Visual Basic</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+
+<pre> <code>
+Function acornwt(dbh As Double, species As String) As Double
+' Function to calculate mean acorn weight (in lb) from dbh and species and trees per acre
+' by David R. Larsen, Copyright October 9, 2012
+' Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+If (species = "black" And dbh > 9.9 And dbh < 36.1) Then
+   acornwt = -1.9065 + 0.2973 * dbh
+ElseIf (species = "chestnut" And dbh > 9.9 And dbh < 36.1) Then
+   acornwt = 0.0008271 * dbh ^ 3 - 0.08157 * dbh ^ 2 + 2.692 * dbh - 18.85
+ElseIf (species = "red" And dbh > 9.9 And dbh < 36.1) Then
+    acornwt = 0.0004016 * dbh ^ 4 - 0.0349937 * dbh ^ 3 + 0.9864357 * dbh ^ 2 - 9.5233885 * dbh + 27.32720516
+ElseIf (species = "scarlet" And dbh > 9.9 And dbh < 36.1) Then
+   acornwt = 0.0005975 * dbh ^ 4 - 0.05325 * dbh ^ 3 + 1.651 * dbh ^ 2 - 19.97 * dbh + 84.71
+ElseIf (species = "white" And dbh > 9.9 And dbh < 36.1) Then
+   acornwt = 0.0001987 * dbh ^ 4 - 0.02027 * dbh ^ 3 + 0.694 * dbh ^ 2 - 8.768 * dbh + 37.36
+Else
+   acornwt = Empty
+End If
+
+
+End Function
+
+</code></pre>
+</div>
+
+<a href="code/VBS/acornwt.vbs">Excel&reg; Visual Basic Code</a><br/>
+</p>
+<h4>R Statistical Package Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+acornwt = function(dbh, species)
+{
+#  Function to calculate mean acorn weight (in lb) from dbh and species and trees per acre
+# by David R. Larsen, Copyright October 9, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+  if( (species == "black") && (dbh > 9.9) && (dbh < 36.1) ){
+    acornwt = -1.9065 + 0.2973 * dbh
+  }else if((species == "chestnut") && (dbh > 9.9) && (dbh < 36.1)){
+    acornwt = 0.0008271 * dbh ^ 3 - 0.08157 * dbh ^ 2 + 2.692 * dbh - 18.85
+  }else if(species = "red" And dbh > 9.9 And dbh < 36.1) {
+    acornwt = 0.0004016 * dbh ^ 4 - 0.0349937 * dbh ^ 3 + 0.9864357 * dbh ^ 2 - 9.5233885 * dbh + 27.32720516
+  }else if (species = "scarlet" And dbh > 9.9 And dbh < 36.1){
+    acornwt = 0.0005975 * dbh ^ 4 - 0.05325 * dbh ^ 3 + 1.651 * dbh ^ 2 - 19.97 * dbh + 84.71
+  }else if(species = "white" And dbh > 9.9 And dbh < 36.1){
+    acornwt = 0.0001987 * dbh ^ 4 - 0.02027 * dbh ^ 3 + 0.694 * dbh ^ 2 - 8.768 * dbh + 37.36
+  }else{
+    acornwt = 0.0
+  }
+  acornwt
+}
+</code></pre>
+</div>
+
+<a href="code/R/acornwt.R">R Statistical Package Code</a><br/>
+</p>
+
+<h4>Python Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+#!/usr/local/bin/python
+# Function to calculate mean acorn weight (in lb) from dbh and species and trees per acre
+# by David R. Larsen, Copyright October 9, 2012
+# Creative Commons http://creativecommons.org/licenses/by-nc/3.0/us/
+
+def acornwt(dbh, species)
+  if( (species == "black") && (dbh > 9.9) && (dbh < 36.1) ):
+    acornwt = -1.9065 + 0.2973 * dbh
+
+  elif((species == "chestnut") && (dbh > 9.9) && (dbh < 36.1)):
+    acornwt = 0.0008271 * dbh ^ 3 - 0.08157 * dbh ^ 2 + 2.692 * dbh - 18.85
+
+  elif(species = "red" And dbh > 9.9 And dbh < 36.1):
+    acornwt = 0.0004016 * dbh ^ 4 - 0.0349937 * dbh ^ 3 + 0.9864357 * dbh ^ 2 - 9.5233885 * dbh + 27.32720516
+
+  elif(species = "scarlet" And dbh > 9.9 And dbh < 36.1):
+    acornwt = 0.0005975 * dbh ^ 4 - 0.05325 * dbh ^ 3 + 1.651 * dbh ^ 2 - 19.97 * dbh + 84.71
+
+  elif(species = "white" And dbh > 9.9 And dbh < 36.1):
+    acornwt = 0.0001987 * dbh ^ 4 - 0.02027 * dbh ^ 3 + 0.694 * dbh ^ 2 - 8.768 * dbh + 37.36
+
+  else
+    acornwt = 0.0
+
+  retrun acornwt
+
+
+print "imperial =", acornwt( 14.3, "black" )
+print "imperial =", acornwt( 22.6, "white" )
+print "imperial =", acornwt( 18.9, "scarlet" )
+</code></pre>
+</div>
+<a href="code/python/acornwt.pytxt">Python Code</a>
+</p>
+<p>
+Note the python file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+<h4> Go Code</h4>
+<p>
+<div style="background-color:lightgrey;border:1px solid black;padding 10px">
+<pre> <code>
+</code></pre>
+</div>
+<a href="">Run code in the Go Playground</a>
+<br/>
+<a href="code/go/">Go Code</a>
+</p>
+<p>
+Note the Go file has a extra "txt" at the end to allow the files to be viewed in a web browser.
+</p>
+
+               </td>
+            </tr>
+          </tbody>
+         </table>
+         </center>
+         <hr class="full" />
+	 <div align="right">
+
+	 <small>
+	 <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="img/by-sa.png" /></a><br />This <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.
+	 <br/>
+ 	 <br/>
+	 Author: Dr. David R. Larsen, Copyright 2012<br/>
+	 Created: October 9, 2012<br/>
+	 Last Updated: August 20, 2017</small>
+	 </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
